@@ -1,4 +1,3 @@
-import "../App.css";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "../pages/Login/Login.tsx";
 import Dashboard from "../pages/Dashboard/Dashboard.tsx";
