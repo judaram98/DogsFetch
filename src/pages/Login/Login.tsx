@@ -72,7 +72,7 @@ const Login = () => {
             setValue={setEmail}
           />
         </div>
-        <Button type="submit" value="Log In" />
+        <Button type="submit" value="Log In" selected={true} />
       </form>
     </header>
   );
