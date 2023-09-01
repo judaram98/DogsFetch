@@ -7,12 +7,21 @@ import Dropdown from "../../components/Dropdown";
 import Button from "../../components/Button";
 import DogCard from "../../components/DogCard";
 
+interface Dog {
+  id: number;
+  img: string;
+  name: string;
+  age: number;
+  zip_code: number;
+  breed: string;
+}
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [selectedBreed, setSelectedBreed] = useState<string>("");
   const [breeds, setBreeds] = useState([]);
-  // const [Dogs, setDogs] = useState([]);
+  const [Dogs, setDogs] = useState<Dog[]>([]);
 
   const breedFetch = async () => {
     const response = await apiService.fetchData(
@@ -59,21 +68,19 @@ const Dashboard = () => {
       }
     );
     const data = await response.json();
-    console.log(data);
-    if (data) {
-      // const dogsInfo = await apiService.fetchData(
-      //   "https://frontend-take-home-service.fetch.com/dogs",
-      //   {
-      //     method: "GET",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     credentials: "include",
-      //     queryParams: JSON.stringify(data.resultIds),
-      //   }
-      // );
-      // console.log(dogsInfo);
-    }
+    const dogList = await apiService.fetchData(
+      "https://frontend-take-home-service.fetch.com/dogs",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(data.resultIds),
+      }
+    );
+    const dogsData = await dogList.json();
+    setDogs(dogsData);
   };
 
   useEffect(() => {
@@ -82,25 +89,29 @@ const Dashboard = () => {
 
   useEffect(() => {
     dogFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   return (
-    <div className="h-screen px-20 pt-14">
-      <header className="flex flex-col items-center relative h-[20%]">
+    <main className="h-screen px-20 pt-14">
+      <header
+        className="flex flex-col items-center relative h-[20%]"
+        role="banner"
+      >
         <img src={FetchLogo} alt="Logo" className="h-5/6" />
         <h1 className="text-3xl font-light text-[#300C39] -mt-4 tracking-widest">
           Dogs
         </h1>
-        <div
+        <nav
           className="w-32 absolute right-0"
           onClick={() => {
             logout();
           }}
         >
           <Button type="submit" value="Log Out" />
-        </div>
+        </nav>
       </header>
-      <section className="flex items-center h-[10%]">
+      <section className="flex items-center h-[10%]" role="search">
         <TextField
           type="text"
           id="search"
@@ -114,18 +125,23 @@ const Dashboard = () => {
           setSelectedItem={setSelectedBreed}
         />
       </section>
-      <section className="h-[60%] overflow-scroll">
+      <main className="h-[60%] overflow-scroll" role="region">
         <div className="w-full flex flex-wrap gap-10 mx-7">
-          <DogCard
-            img="https://frontend-take-home.fetch.com/dog-images/n02085620-Chihuahua/n02085620_10976.jpg"
-            name="Emory"
-            age={10}
-            zip={48333}
-            breed="Chihuahua"
-          />
+          {Dogs.map((dog) => {
+            return (
+              <DogCard
+                key={dog.id}
+                img={dog.img}
+                name={dog.name}
+                age={dog.age}
+                zip={dog.zip_code}
+                breed={dog.breed}
+              />
+            );
+          })}
         </div>
-      </section>
-    </div>
+      </main>
+    </main>
   );
 };
 
