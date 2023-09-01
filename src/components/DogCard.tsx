@@ -19,7 +19,7 @@ const DogCard = ({ img, name, age, zip, breed }: DogCardProps) => {
         <p className="text-gray-400">{age} Years</p>
         <p className="text-xs font-light text-gray-400">{zip}</p>
       </div>
-      <div className="absolute top-3 right-3 py-1 px-3 font-light text-xs rounded-md text-white bg-[#FBA819]">
+      <div className="absolute top-3 right-3 py-1 px-3 font-light text-xs rounded-md text-white bg-[#300C39]">
         {breed}
       </div>
     </div>

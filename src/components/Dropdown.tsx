@@ -3,7 +3,7 @@ import React, { useState } from "react";
 interface DropdownProps {
   items: string[];
   selectedItem: string | null;
-  setSelectedItem: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedItem: (value: string) => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -20,7 +20,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <div
-      className={`relative w-5/12 ml-10 flex flex-col justify-start ${
+      className={`relative w-5/12 flex flex-col justify-start z-10 ${
         isOpen ? "max-h-96" : "max-h-10"
       }`}
     >
