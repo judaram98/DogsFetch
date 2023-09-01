@@ -19,6 +19,7 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           name,
           email,
@@ -67,7 +68,7 @@ const Login = () => {
             setValue={setEmail}
           />
         </div>
-        <Button type="submit" value="Iniciar Sesión" />
+        <Button type="submit" value="Log In" />
       </form>
     </div>
   );
