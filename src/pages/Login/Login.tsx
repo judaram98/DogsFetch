@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useFetch from "../../hooks/useFetch";
+import apiService from "../../services/apiService";
 import { useNavigate } from "react-router-dom";
 import FetchLogo from "../../assets/Fetch_Logo.jpeg";
 import TextField from "../../components/TextField";
@@ -9,14 +9,21 @@ const Login = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const { fetchData } = useFetch();
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const response = await fetchData(
+
+    const response = await apiService.fetchData(
       "https://frontend-take-home-service.fetch.com/auth/login",
-      "POST",
-      { name: name, email: email }
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+        }),
+      }
     );
     if (response.ok) {
       navigate("principal");
