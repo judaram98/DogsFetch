@@ -32,12 +32,16 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center">
+    <header className="w-full h-screen flex flex-col justify-center items-center">
       <img src={FetchLogo} alt="Logo" className="w-2/12" />
       <h1 className="text-3xl font-light text-[#300C39] -mt-4 tracking-widest">
         Login
       </h1>
-      <form onSubmit={handleSubmit} className="w-3/12 mt-5 flex flex-col gap-5">
+      <form
+        onSubmit={handleSubmit}
+        className="w-3/12 mt-5 flex flex-col gap-5"
+        role="form"
+      >
         <div className="flex flex-col">
           <label
             htmlFor="name"
@@ -70,7 +74,7 @@ const Login = () => {
         </div>
         <Button type="submit" value="Log In" />
       </form>
-    </div>
+    </header>
   );
 };
 
