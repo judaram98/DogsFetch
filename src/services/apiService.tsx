@@ -4,6 +4,8 @@ interface RequestOptions {
   method: HttpMethod;
   headers?: Record<string, string>;
   body?: string | FormData;
+  credentials?: RequestCredentials;
+  queryParams?: Record<string, string>;
 }
 
 async function request(
