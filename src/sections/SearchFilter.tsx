@@ -54,7 +54,7 @@ const SearchFilter = ({
 
   return (
     <section
-      className="flex justify-between items-center h-[10%]"
+      className="flex justify-between items-center h-[15%] md:h-[10%] flex-col md:flex-row"
       role="search"
     >
       <Dropdown
@@ -62,7 +62,7 @@ const SearchFilter = ({
         selectedItem={selectedBreed}
         setSelectedItem={setSelectedBreed}
       />
-      <div className="= w-2/12 h-full flex items-center justify-between">
+      <div className="w-7/12 sm:w-5/12 md:w-3/12 lg:w-2/12 h-full flex items-center justify-between">
         <p>Sort:</p>
         <div
           className="w-4/12"
