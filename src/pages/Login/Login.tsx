@@ -27,7 +27,7 @@ const Login = () => {
       }
     );
     if (response.ok) {
-      navigate("principal");
+      navigate("dashboard");
     }
   };
 
