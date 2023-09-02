@@ -29,32 +29,8 @@ export async function fetchData(
   return response;
 }
 
-// export async function postData<T>(
-//   url: string,
-//   body: Record<string, any>,
-//   options: RequestOptions = { method: "POST" }
-// ): Promise<T> {
-//   const requestOptions: RequestOptions = {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       ...options.headers,
-//     },
-//     body: JSON.stringify(body),
-//     ...options,
-//   };
-
-//   const response = await request(url, requestOptions);
-//   const data = await response.json();
-//   return data;
-// }
-
-// Puedes agregar funciones similares para PUT y DELETE si es necesario
-
-// Exporta todas las funciones que quieras usar en tus componentes
 const apiService = {
   fetchData,
-  //   postData,
 };
 
 export default apiService;

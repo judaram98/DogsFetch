@@ -1,131 +1,71 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import apiService from "../../services/apiService";
-import FetchLogo from "../../assets/Fetch_Logo.jpeg";
-import TextField from "../../components/TextField";
-import Dropdown from "../../components/Dropdown";
-import Button from "../../components/Button";
-import DogCard from "../../components/DogCard";
+import Pagination from "../../sections/Pagination";
+import HeaderLogOut from "../../sections/HeaderLogOut";
+import SearchFilter from "../../sections/SearchFilter";
+import Dogs from "../../sections/Dogs";
+import MatchView from "../../sections/MatchView";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const [search, setSearch] = useState("");
   const [selectedBreed, setSelectedBreed] = useState<string>("");
-  const [breeds, setBreeds] = useState([]);
-  // const [Dogs, setDogs] = useState([]);
-
-  const breedFetch = async () => {
-    const response = await apiService.fetchData(
-      "https://frontend-take-home-service.fetch.com/dogs/breeds",
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    );
-    const data = await response.json();
-    if (data) {
-      setBreeds(data);
-    }
-  };
-
-  const logout = async () => {
-    const response = await apiService.fetchData(
-      "https://frontend-take-home-service.fetch.com/auth/logout",
-      {
-        method: "POST",
-        credentials: "include",
-      }
-    );
-    if (response.ok) {
-      navigate("/");
-    }
-  };
-
-  const dogFetch = async () => {
-    const response = await apiService.fetchData(
-      "https://frontend-take-home-service.fetch.com/dogs/search?size=25&from=0",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        queryParams: {
-          breeds: selectedBreed,
-          zipCodes: "",
-          ageMin: "",
-          ageMax: "",
-        },
-      }
-    );
-    const data = await response.json();
-    console.log(data);
-    if (data) {
-      // const dogsInfo = await apiService.fetchData(
-      //   "https://frontend-take-home-service.fetch.com/dogs",
-      //   {
-      //     method: "GET",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     credentials: "include",
-      //     queryParams: JSON.stringify(data.resultIds),
-      //   }
-      // );
-      // console.log(dogsInfo);
-    }
-  };
+  const [order, setOrder] = useState<string>("asc");
+  const [totalResults, setTotalResults] = useState<number>(0);
+  const [page, setPage] = useState<number>(0);
+  const [favoriteDogs, setFavoriteDogs] = useState<string[]>(() => {
+    const saved = localStorage.getItem("favoriteDogs");
+    const initialValue = JSON.parse(saved ?? "[]"); // Usar un array vacío como valor predeterminado si saved es null
+    return initialValue;
+  });
+  const [match, setMatch] = useState(false);
+  const [canMatch, setCanMatch] = useState(false);
 
   useEffect(() => {
-    breedFetch();
-  }, []);
-
-  useEffect(() => {
-    dogFetch();
-  }, [search]);
+    localStorage.setItem("favoriteDogs", JSON.stringify(favoriteDogs));
+    if (favoriteDogs.length === 0) {
+      setMatch(false);
+      setCanMatch(false);
+    } else {
+      setCanMatch(true);
+    }
+    console.log(favoriteDogs);
+  }, [favoriteDogs]);
 
   return (
-    <div className="h-screen px-20 pt-14">
-      <header className="flex flex-col items-center relative h-[20%]">
-        <img src={FetchLogo} alt="Logo" className="h-5/6" />
-        <h1 className="text-3xl font-light text-[#300C39] -mt-4 tracking-widest">
-          Dogs
-        </h1>
-        <div
-          className="w-32 absolute right-0"
-          onClick={() => {
-            logout();
-          }}
-        >
-          <Button type="submit" value="Log Out" />
-        </div>
-      </header>
-      <section className="flex items-center h-[10%]">
-        <TextField
-          type="text"
-          id="search"
-          value={search}
-          placeholder="Search for dogs"
-          setValue={setSearch}
-        />
-        <Dropdown
-          items={breeds}
-          selectedItem={selectedBreed}
-          setSelectedItem={setSelectedBreed}
-        />
-      </section>
-      <section className="h-[60%] overflow-scroll">
-        <div className="w-full flex flex-wrap gap-10 mx-7">
-          <DogCard
-            img="https://frontend-take-home.fetch.com/dog-images/n02085620-Chihuahua/n02085620_10976.jpg"
-            name="Emory"
-            age={10}
-            zip={48333}
-            breed="Chihuahua"
+    <main className="h-screen px-5 sm:px-10 md:px-14 lg:px-20 pt-5 sm:pt-8 md:pt-11 xl:pt-14">
+      <HeaderLogOut
+        match={match}
+        setMatch={setMatch}
+        favoriteDogs={favoriteDogs}
+        canMatch={canMatch}
+        setCanMatch={setCanMatch}
+      />
+      {match ? (
+        <>
+          <MatchView
+            setMatch={setMatch}
+            favoriteDogs={favoriteDogs}
+            setFavoriteDogs={setFavoriteDogs}
           />
-        </div>
-      </section>
-    </div>
+        </>
+      ) : (
+        <>
+          <SearchFilter
+            selectedBreed={selectedBreed}
+            setSelectedBreed={setSelectedBreed}
+            order={order}
+            setOrder={setOrder}
+          />
+          <Dogs
+            selectedBreed={selectedBreed}
+            order={order}
+            setTotalResults={setTotalResults}
+            page={page}
+            favoriteDogs={favoriteDogs}
+            setFavoriteDogs={setFavoriteDogs}
+          />
+          <Pagination totalResults={totalResults} setPage={setPage} />
+        </>
+      )}
+    </main>
   );
 };
 

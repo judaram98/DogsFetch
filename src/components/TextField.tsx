@@ -20,7 +20,7 @@ const TextField = ({
       value={value}
       placeholder={placeholder}
       onChange={(e) => setValue(e.target.value)}
-      className="px-3 border border-neutral-300 tex-neutral-300 font-normal rounded-lg h-10 outline-[#FBA819] w-full"
+      className="px-3 border border-neutral-300 text-neutral-500 font-normal rounded-lg h-10 outline-[#FBA819] w-full"
       required
     />
   );
