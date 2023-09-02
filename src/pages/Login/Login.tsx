@@ -1,7 +1,7 @@
 import { useState } from "react";
 import apiService from "../../services/apiService";
 import { useNavigate } from "react-router-dom";
-import FetchLogo from "../../assets/Fetch_Logo.jpeg";
+import FetchLogo from "../../assets/Fetch_Logo.png";
 import TextField from "../../components/TextField";
 import Button from "../../components/Button";
 
@@ -33,13 +33,17 @@ const Login = () => {
 
   return (
     <header className="w-full h-screen flex flex-col justify-center items-center">
-      <img src={FetchLogo} alt="Logo" className="w-2/12" />
+      <img
+        src={FetchLogo}
+        alt="Logo"
+        className="w-5/12 sm:w-4/12 md:w-3/12 lg:w-2/12 xl:w-1/12"
+      />
       <h1 className="text-3xl font-light text-[#300C39] -mt-4 tracking-widest">
         Login
       </h1>
       <form
         onSubmit={handleSubmit}
-        className="w-3/12 mt-5 flex flex-col gap-5"
+        className="w-8/12 sm:w-6/12 md:w-4/12 lg:w-3/12 xl:w-2/12 mt-5 flex flex-col gap-5"
         role="form"
       >
         <div className="flex flex-col">
