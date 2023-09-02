@@ -3,7 +3,7 @@ import DogCard from "../components/DogCard";
 import apiService from "../services/apiService";
 
 interface Dog {
-  id: number;
+  id: string;
   img: string;
   name: string;
   age: number;
@@ -16,9 +16,18 @@ interface Params {
   order: string;
   setTotalResults: (value: number) => void;
   page: number;
+  favoriteDogs: string[];
+  setFavoriteDogs: (value: string[]) => void;
 }
 
-const Dogs = ({ selectedBreed, order, setTotalResults, page }: Params) => {
+const Dogs = ({
+  selectedBreed,
+  order,
+  setTotalResults,
+  page,
+  favoriteDogs,
+  setFavoriteDogs,
+}: Params) => {
   const [dogs, setDogs] = useState<Dog[]>([]);
 
   const dogFetch = async () => {
@@ -57,17 +66,23 @@ const Dogs = ({ selectedBreed, order, setTotalResults, page }: Params) => {
   }, [selectedBreed, order, page]);
 
   return (
-    <main className="h-[60%] overflow-scroll" role="region">
-      <div className="w-full flex flex-wrap gap-10 mx-7">
+    <main
+      className="h-[55%] md:h-[60%] overflow-scroll no-scrollbar"
+      role="region"
+    >
+      <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  lg:grid-cols-5 xl:grid-cols-6 gap-5 sm:gap-6 md:gap-7 lg:gap-8">
         {dogs.map((dog) => {
           return (
             <DogCard
+              id={dog.id}
               key={dog.id}
               img={dog.img}
               name={dog.name}
               age={dog.age}
               zip={dog.zip_code}
               breed={dog.breed}
+              favoriteDogs={favoriteDogs}
+              setFavoriteDogs={setFavoriteDogs}
             />
           );
         })}
