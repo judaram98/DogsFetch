@@ -7,7 +7,7 @@ function HtmlRoutes() {
     <Router>
       <Routes>
         <Route path="/" element={<Login></Login>} />
-        <Route path="/principal" element={<Dashboard></Dashboard>} />
+        <Route path="/dashboard" element={<Dashboard></Dashboard>} />
       </Routes>
     </Router>
   );
