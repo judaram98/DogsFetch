@@ -8,10 +8,10 @@ const Button = ({ type, value, selected }: ButtonProps) => {
   return (
     <button
       type={type}
-      className={`text-white py-2 rounded-lg w-full ${
+      className={`py-2 rounded-lg w-full ${
         selected
-          ? "bg-[#FBA819] hover:bg-[#E1981F]"
-          : "border border-neutral-300 text-neutral-300"
+          ? "bg-[#FBA819] hover:bg-[#E1981F] text-white"
+          : "border border-neutral-300 text-neutral-500"
       }`}
     >
       {value}
